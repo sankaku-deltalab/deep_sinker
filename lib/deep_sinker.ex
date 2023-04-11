@@ -93,7 +93,7 @@ defmodule DeepSinker do
   @doc """
   Stream filepaths.
   """
-  @spec stream(DeepSinker.t()) :: Stream.t(filepath)
+  @spec stream(DeepSinker.t()) :: Enumerable.t(filepath)
   def stream(%DeepSinker{} = state) do
     Stream.resource(
       fn -> state end,
