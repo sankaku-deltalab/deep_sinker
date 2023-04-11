@@ -90,6 +90,24 @@ defmodule DeepSinker do
     end
   end
 
+  @doc """
+  Stream filepaths.
+  """
+  @spec stream(DeepSinker.t()) :: Stream.t(filepath)
+  def stream(%DeepSinker{} = state) do
+    Stream.resource(
+      fn -> state end,
+      fn state ->
+        with {state, {:ok, filepath}} <- DeepSinker.next(state) do
+          {[filepath], state}
+        else
+          :done -> {:halt, state}
+        end
+      end,
+      fn _ -> nil end
+    )
+  end
+
   defp find_children(directory_path, order)
        when is_bitstring(directory_path) and order in [:asc, :desc] do
     with {:ok, filenames} <- :file.list_dir(directory_path) do
