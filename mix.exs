@@ -11,7 +11,8 @@ defmodule DeepSinker.MixProject do
       deps: deps(),
       package: package(),
       source_url: "https://github.com/sankaku-deltalab/deep_sinker",
-      homepage_url: "https://github.com/sankaku-deltalab/deep_sinker"
+      homepage_url: "https://github.com/sankaku-deltalab/deep_sinker",
+      docs: docs()
     ]
   end
 
@@ -40,6 +41,16 @@ defmodule DeepSinker.MixProject do
       contributors: ["Sankaku <sankaku_dlt.45631@outlook.jp>"],
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => "https://github.com/sankaku-deltalab/deep_sinker"}
+    ]
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: [
+        "README.md",
+        "CHANGELOG.md"
+      ]
     ]
   end
 end

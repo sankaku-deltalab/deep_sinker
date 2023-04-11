@@ -1,6 +1,6 @@
 defmodule DeepSinker do
   @moduledoc """
-  Documentation for `DeepSinker`.
+  Customizable file traverser.
   """
 
   use TypedStruct
