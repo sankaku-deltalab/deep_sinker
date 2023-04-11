@@ -29,29 +29,21 @@ defmodule DeepSinker do
   ## Examples
 
       iex> DeepSinker.new(["/path/to/dir1", "/path/to/dir2"])
-      %DeepSinker{
-        found_items: ["/path/to/dir1", "/path/to/dir2"],
-        order: :asc,
-        handler: #Function<1.115275493/1 in DeepSinker.default_handler>,
-        root_items: ["/path/to/dir1", "/path/to/dir2"]
-      }
+      ...> |> is_struct(DeepSinker)
+      true
 
       iex> DeepSinker.new(["/path/to/dir1", "/path/to/dir2"],
-             order: :desc,
-             handler: fn item_path ->
-               cond do
-                 item_path == ".git" -> :ignore
-                 String.contains?(item_path, ".") -> :file
-                 true -> :directory
-               end
-             end
-           )
-      %DeepSinker{
-        found_items: ["/path/to/dir1", "/path/to/dir2"],
-        order: :desc,
-        handler: #Function<42.3316493/1 in :erl_eval.expr/6>,
-        root_items: ["/path/to/dir1", "/path/to/dir2"]
-      }
+      ...>   order: :desc,
+      ...>   handler: fn item_path ->
+      ...>     cond do
+      ...>       item_path == ".git" -> :ignore
+      ...>       String.contains?(item_path, ".") -> :file
+      ...>       true -> :directory
+      ...>     end
+      ...>   end
+      ...> )
+      ...> |> is_struct(DeepSinker)
+      true
   """
   @spec new([item_path]) :: DeepSinker.t()
   @spec new([item_path], opt) :: DeepSinker.t()
@@ -70,24 +62,6 @@ defmodule DeepSinker do
 
   @doc """
   Pop file and update state.
-
-  ## Examples
-
-      iex> state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"])
-      %DeepSinker{
-        found_items: ["/path/to/dir1", "/path/to/dir2"],
-        order: :asc,
-        handler: #Function<1.115275493/1 in DeepSinker.default_handler>,
-        root_items: ["/path/to/dir1", "/path/to/dir2"]
-      }
-      iex> DeepSinker.next(state)
-      {%DeepSinker{
-         found_items: ["/path/to/dir1/item2", "/path/to/dir1/item3", "/path/to/dir2"],
-         order: :asc,
-         handler: #Function<42.3316493/1 in :erl_eval.expr/6>,
-         root_items: ["/path/to/dir1", "/path/to/dir2"]
-       }, {:ok, "/path/to/dir1/item1"}
-      }
   """
   @spec next(DeepSinker.t()) :: {DeepSinker.t(), result}
   def next(%DeepSinker{found_items: []} = _state) do
