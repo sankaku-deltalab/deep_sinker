@@ -25,7 +25,8 @@ defmodule DeepSinker.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:typed_struct, "~> 0.3.0"}
+      {:typed_struct, "~> 0.3.0"},
+      {:tmp, "~> 0.2.0", only: [:dev, :test]}
     ]
   end
 
