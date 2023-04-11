@@ -26,7 +26,8 @@ defmodule DeepSinker.MixProject do
   defp deps do
     [
       {:typed_struct, "~> 0.3.0"},
-      {:tmp, "~> 0.2.0", only: [:dev, :test]}
+      {:tmp, "~> 0.2.0", only: [:dev, :test]},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 
