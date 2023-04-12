@@ -64,9 +64,9 @@ defmodule DeepSinker do
   Pop file and update state.
   """
   @spec next(DeepSinker.t()) :: {DeepSinker.t(), result}
-  def next(%DeepSinker{found_items: []} = _state) do
+  def next(%DeepSinker{found_items: []} = state) do
     # There are no files should search
-    :done
+    {state, :done}
   end
 
   def next(
@@ -101,7 +101,7 @@ defmodule DeepSinker do
         with {state, {:ok, filepath}} <- DeepSinker.next(state) do
           {[filepath], state}
         else
-          :done -> {:halt, state}
+          {state, :done} -> {:halt, state}
         end
       end,
       fn _ -> nil end
