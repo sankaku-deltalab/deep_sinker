@@ -5,11 +5,11 @@ Customizable directory traverser.
 ## Usage
 
 ```elixir
-# Default mode
+# Default usage
 state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"])
 DeepSinker.next(state)  # {new_state, {:ok, filepath} | :done}
 
-# Custom mode
+# Custom usage
 state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"],
   order: :desc,  # :asc or :desc
   handler: fn item_path ->
@@ -29,6 +29,11 @@ state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"],
   end
 )
 DeepSinker.next(state)  # {new_state, {:ok, filepath} | :done}
+
+# Stream usage
+state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"])
+DeepSinker.stream(state)
+|> Enum.to_list()  # [filepath]
 ```
 
 ## Installation
