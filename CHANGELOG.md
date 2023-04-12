@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2023-04-12
+
+### Fixed
+
+- Fix traversing.
+
 ## [0.1.2] - 2023-04-11
 
 ### Fixed
@@ -26,7 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[unreleased]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.1.2...HEAD
+[unreleased]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.1.2...0.2.0
 [0.1.2]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.1.0...0.1.1
 [0.1.0]: https://github.com/sankaku-deltalab/deep_sinker/releases/tag/0.1.0
