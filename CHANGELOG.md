@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2023-06-24
+
+### Changed
+
+- Change to take handler when `next/2` instead of `new/2`.
+
+### Fixed
+
+- Fix type specs.
+
 ## [0.2.0] - 2023-04-12
 
 ### Fixed
@@ -32,7 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release.
 
-[unreleased]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.2.0...HEAD
+[unreleased]: https://github.com/sankaku-deltalab/deep_sinker/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.2.0...1.0.0
 [0.2.0]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.1.2...0.2.0
 [0.1.2]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.1.1...0.1.2
 [0.1.1]: https://github.com/sankaku-deltalab/deep_sinker/compare/0.1.0...0.1.1

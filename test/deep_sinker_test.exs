@@ -107,19 +107,19 @@ defmodule DeepSinkerTest do
   test "iter with handler" do
     with_tmp_files(fn root ->
       filepaths =
-        DeepSinker.new([root],
+        DeepSinker.new([root])
+        |> DeepSinker.stream(
           handler: fn item_path ->
             basename = Path.basename(item_path)
 
+            # Check is_dir without Path lib.
             cond do
               basename == "file_1_1_1.txt" -> :ignore
               String.ends_with?(basename, ".txt") -> :file
-              File.dir?(item_path) -> :directory
-              true -> :file
+              true -> :directory
             end
           end
         )
-        |> DeepSinker.stream()
         |> Enum.to_list()
 
       expected_filepaths =

@@ -4,7 +4,7 @@ defmodule DeepSinker.MixProject do
   def project do
     [
       app: :deep_sinker,
-      version: "0.2.0",
+      version: "1.0.0",
       elixir: "~> 1.14",
       start_permanent: Mix.env() == :prod,
       description: description(),
