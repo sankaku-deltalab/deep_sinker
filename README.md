@@ -6,33 +6,33 @@ Customizable directory traverser.
 
 ```elixir
 # Default usage
-state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"])
-DeepSinker.next(state)  # {new_state, {:ok, filepath} | :done}
+state = DeepSinker.new([{"/path/to/dir1", :dir1}, {"/path/to/dir2", :dir2}])
+DeepSinker.next(state)  # {new_state, {:ok, {path, :dir1 | :dir2}} | :done}
 
 # Custom usage
-state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"], order: :desc)  # :asc or :desc
+state = DeepSinker.new([{"/path/to/dir1", :dir1}, {"/path/to/dir2", :dir2}], order: :desc)  # :asc or :desc
 DeepSinker.next(state,
-  handler: fn item_path ->
+  handler: fn {path, marker} ->
     # Below code is default handler but File.dir?/1 consume large time in some env.
     # cond do
-    #   File.dir?(item_path) -> :directory
+    #   File.dir?(path) -> :directory
     #   true -> :file
     # end
 
     # If you want to avoid File.dir?/1, use this.
-    basename = Path.basename(item_path)
+    basename = Path.basename(path)
     cond do
       basename == ".git" -> :ignore
       String.contains?(basename, ".") -> :file
       true -> :directory
     end
   end
-)  # {new_state, {:ok, filepath} | :done}
+)  # {new_state, {:ok, {path, :dir1 | :dir2}} | :done}
 
 # Stream usage
-state = DeepSinker.new(["/path/to/dir1", "/path/to/dir2"])
+state = DeepSinker.new([{"/path/to/dir1", :dir1}, {"/path/to/dir2", :dir2}])
 DeepSinker.stream(state)
-|> Enum.to_list()  # [filepath]
+|> Enum.to_list()  # [{path, :dir1 | :dir2}]
 ```
 
 ## Installation

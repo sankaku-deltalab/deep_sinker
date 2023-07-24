@@ -2,6 +2,11 @@ defmodule DeepSinkerTest do
   use ExUnit.Case
   doctest DeepSinker
 
+  defp join_root_to_items(items, root) when is_bitstring(root) do
+    items
+    |> Enum.map(fn {path, marker} -> {Path.join(root, path), marker} end)
+  end
+
   defp with_tmp_files(callback) do
     # - root
     #   - dir_1
@@ -40,28 +45,30 @@ defmodule DeepSinkerTest do
 
   test "iter default" do
     with_tmp_files(fn root ->
-      filepaths =
-        DeepSinker.new([root])
+      found_items =
+        DeepSinker.new([{root, :a}])
         |> DeepSinker.stream()
         |> Enum.to_list()
 
-      expected_filepaths =
+      expected_items =
         [
-          "dir_1/dir_1_1/file_1_1_1.txt",
-          "dir_1/file_1_1.txt",
-          "dir_3/file_3_1.txt",
-          "file_1.txt",
-          "file_2.txt"
+          {"dir_1/dir_1_1/file_1_1_1.txt", :a},
+          {"dir_1/file_1_1.txt", :a},
+          {"dir_3/file_3_1.txt", :a},
+          {"file_1.txt", :a},
+          {"file_2.txt", :a}
         ]
-        |> Enum.map(&Path.join(root, &1))
+        |> join_root_to_items(root)
 
-      assert filepaths == expected_filepaths
+      assert found_items == expected_items
     end)
   end
 
   test "iter with multiple roots" do
     with_tmp_files(fn root ->
-      roots = ["dir_1", "dir_2"] |> Enum.map(&Path.join(root, &1))
+      roots =
+        [{"dir_1", :a}, {"dir_3", :b}]
+        |> join_root_to_items(root)
 
       filepaths =
         DeepSinker.new(roots)
@@ -70,13 +77,13 @@ defmodule DeepSinkerTest do
 
       expected_filepaths =
         [
-          "dir_1/dir_1_1/file_1_1_1.txt",
-          "dir_1/file_1_1.txt"
-          # "dir_3/file_3_1.txt",
+          {"dir_1/dir_1_1/file_1_1_1.txt", :a},
+          {"dir_1/file_1_1.txt", :a},
+          {"dir_3/file_3_1.txt", :b}
           # "file_1.txt",
           # "file_2.txt"
         ]
-        |> Enum.map(&Path.join(root, &1))
+        |> join_root_to_items(root)
 
       assert filepaths == expected_filepaths
     end)
@@ -85,19 +92,19 @@ defmodule DeepSinkerTest do
   test "iter desc" do
     with_tmp_files(fn root ->
       filepaths =
-        DeepSinker.new([root], order: :desc)
+        DeepSinker.new([{root, :a}], order: :desc)
         |> DeepSinker.stream()
         |> Enum.to_list()
 
       expected_filepaths =
         [
-          "dir_1/dir_1_1/file_1_1_1.txt",
-          "dir_1/file_1_1.txt",
-          "dir_3/file_3_1.txt",
-          "file_1.txt",
-          "file_2.txt"
+          {"dir_1/dir_1_1/file_1_1_1.txt", :a},
+          {"dir_1/file_1_1.txt", :a},
+          {"dir_3/file_3_1.txt", :a},
+          {"file_1.txt", :a},
+          {"file_2.txt", :a}
         ]
-        |> Enum.map(&Path.join(root, &1))
+        |> join_root_to_items(root)
         |> Enum.reverse()
 
       assert filepaths == expected_filepaths
@@ -107,10 +114,10 @@ defmodule DeepSinkerTest do
   test "iter with handler" do
     with_tmp_files(fn root ->
       filepaths =
-        DeepSinker.new([root])
+        DeepSinker.new([{root, :a}])
         |> DeepSinker.stream(
-          handler: fn item_path ->
-            basename = Path.basename(item_path)
+          handler: fn {path, :a} ->
+            basename = Path.basename(path)
 
             # Check is_dir without Path lib.
             cond do
@@ -125,12 +132,12 @@ defmodule DeepSinkerTest do
       expected_filepaths =
         [
           # "dir_1/dir_1_1/file_1_1_1.txt",
-          "dir_1/file_1_1.txt",
-          "dir_3/file_3_1.txt",
-          "file_1.txt",
-          "file_2.txt"
+          {"dir_1/file_1_1.txt", :a},
+          {"dir_3/file_3_1.txt", :a},
+          {"file_1.txt", :a},
+          {"file_2.txt", :a}
         ]
-        |> Enum.map(&Path.join(root, &1))
+        |> join_root_to_items(root)
 
       assert filepaths == expected_filepaths
     end)
