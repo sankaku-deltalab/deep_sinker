@@ -43,7 +43,7 @@ by adding `deep_sinker` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:deep_sinker, "~> 1.0.0"}
+    {:deep_sinker, "~> 2.0.0"}
   ]
 end
 ```
